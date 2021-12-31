@@ -1,0 +1,11 @@
+name: npc
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.8
+  - opencv
+  - numpy
+  - pytorch
+  - matplotlib
+  - cudatoolkit=11.3
