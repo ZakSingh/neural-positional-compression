@@ -7,5 +7,6 @@ dependencies:
   - opencv
   - numpy
   - pytorch
+  - torchvision
   - matplotlib
   - cudatoolkit=11.3
