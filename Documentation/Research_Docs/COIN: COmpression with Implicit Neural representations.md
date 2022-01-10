@@ -43,16 +43,9 @@ COIN proved that very small networks in terms of parameter count can fit images 
   - The other version of progressive decoding simply runs over parts of the image/video first
 - Have a long appendix with examples of video frames.
 - Have a link to compressed video files that can be easily played during evaluation. 
-- Network structure:
-  - 0.07bpp. Number of layers: 5, width of layers: 20.
-  - 0.15bpp. Number of layers: 5, width of layers: 30.
-  - 0.3bpp. Number of layers: 10, width of layers: 28.
-  - 0.6bpp. Number of layers: 10, width of layers: 40.
-  - 1.2bpp. Number of layers: 13, width of layers: 49.
-  - Coordinates normalized to [-1,1]
-  - RGB normalized to [0,1]
-  - Learning rate: 2e-4
-  - 
+- [GitHub](https://github.com/EmilienDupont/coin)
+
+  s
 
 # Notes
 
@@ -63,7 +56,15 @@ COIN proved that very small networks in terms of parameter count can fit images 
   - Weight Quantization going from 32-bit to 16-bit. 
 - Importantly, they find that 8-bit quantization is too harsh
 - They essentially transform data compression to model compression
-- 
+- Network structure:
+  - 0.07bpp. Number of layers: 5, width of layers: 20.
+  - 0.15bpp. Number of layers: 5, width of layers: 30.
+  - 0.3bpp. Number of layers: 10, width of layers: 28.
+  - 0.6bpp. Number of layers: 10, width of layers: 40.
+  - 1.2bpp. Number of layers: 13, width of layers: 49.
+  - Coordinates normalized to [-1,1]
+  - RGB normalized to [0,1]
+  - Learning rate: 2e-4
 
 
 # Excerpts

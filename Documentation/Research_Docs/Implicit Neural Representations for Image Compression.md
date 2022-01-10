@@ -74,8 +74,16 @@ The paper is correct to assume that the base SIREN-model based technique is capa
 - **Metrics**:
   - Bitrate[bpp], should adapt to video
   - PSNR, use avg PSNR for video
-
-
+- **Important**: Width vs depth:
+  - The authors find that increasing depth leads to diminishing returns
+    - Leads to only slight improvements in psnr with large losses in bitrate
+  - They mostly try out layers between 2 and 8
+  - Depth is further disadvantages by quantization noise which propagates with depth and not width
+  - **Video will most likely need both slightly more depth and width, 4/5 hidden layers of at least 128 and 32/36 freq bands would be a good start**
+- **Important:** L1 regularization considerations:
+  - Values lower than 10^-{5} seem to produce bad results 
+  - The question is between 10^{-5} and 10^{-6}
+  - Higher L1 weight leads to lower entropy but lowers compression quality, requires changing the model shape in order to compensate.
 - They keep the w_0 set to 30, potentially worth tuning 
 - Meta-learning initialization based on MAML (Model-Agnostic Meta-Learning) to improve performance
   - Probably **infeasible** given the fact that it must be trained on a lot of videos and we do not have that much computation at our disposition
@@ -90,6 +98,9 @@ The paper is correct to assume that the base SIREN-model based technique is capa
   - High encoding time
 - THeir work vastly outperforms COIN
 - Their weight initialization diverges from that of the traditional [SIREN](SIREN:%20Implicit%20Neural%20Representations%20with%20Periodic%20Activation%20Functions.md) models
+- They find that positional encodings beat Gaussian encodings
+- Both AdaRound and post-quantization retraining help independently. The greatest advantage comes from using them in conjunction
+- MLPs have poor scaling at higher bit-rates, the authors recommend a more complex architecture to be developed in the future.
 
 
 
