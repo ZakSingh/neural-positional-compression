@@ -66,7 +66,9 @@ class Siren(nn.Module):
                  w0_initial=30., use_bias=True, final_activation=None, num_encoding_functions = None):
         super().__init__()
         if num_encoding_functions is not None:
-            dim_in = dim_in + dim_in * 2 * num_encoding_functions
+            for n in num_encoding_functions:
+                dim_in += 2*n
+        print(f"Dim_in: {dim_in}")
         layers = []
         for ind in range(num_layers):
             is_first = ind == 0
