@@ -63,8 +63,10 @@ class Siren(nn.Module):
         final_activation (torch.nn.Module): Activation function.
     """
     def __init__(self, dim_in, dim_hidden, dim_out, num_layers, w0=30.,
-                 w0_initial=30., use_bias=True, final_activation=None):
+                 w0_initial=30., use_bias=True, final_activation=None, num_encoding_functions = None):
         super().__init__()
+        if num_encoding_functions is not None:
+            dim_in = dim_in + dim_in * 2 * num_encoding_functions
         layers = []
         for ind in range(num_layers):
             is_first = ind == 0
