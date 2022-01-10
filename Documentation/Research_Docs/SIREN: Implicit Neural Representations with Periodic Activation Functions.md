@@ -43,6 +43,7 @@ Yes, their sin-activation-based MLP outperforms standard NN designs using conven
   - 5-layer MLPs with 1024 neurons per layer lr = 1x10^{-4}, batch_size=GPU_mem, iter_count = 100,000, hardware= Titan X
   - [Github](https://github.com/vsitzmann/siren)
   - [Data](https://drive.google.com/drive/folders/1_iq__37-hw7FJOEUK1tX7mdp8SKB368K), including the video they test on
+  - Video Quality Metric: avg PSNR
 - They recommend using weight initialisation in the first layer such that sin(w_0 . Wx+b) spans multiple periods over [-1,1]. They find a w_0 value of 30 to work quite well, this is repeated across future works such as COIN.
 - In their supplementary material they mentions that using the same w_0 in all layers speeds up SIREN training and boosts gradients by a factor of w_0. Might be relevant if gradient values tend to vanish.
 
