@@ -3,10 +3,10 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=3.8
+  - python=3.9
   - opencv
   - numpy
   - pytorch
   - torchvision
   - matplotlib
-  - cudatoolkit=11.3
+  - cudatoolkit=11.2

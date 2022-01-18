@@ -8,6 +8,7 @@ class Sine(nn.Module):
     Args:
         w0 (float): Omega_0 parameter from SIREN paper.
     """
+
     def __init__(self, w0=1.):
         super().__init__()
         self.w0 = w0
@@ -28,6 +29,7 @@ class SirenLayer(nn.Module):
         activation (torch.nn.Module): Activation function. If None, defaults to
             Sine activation.
     """
+
     def __init__(self, dim_in, dim_out, w0=30., c=6., is_first=False,
                  use_bias=True, activation=None):
         super().__init__()
@@ -62,8 +64,9 @@ class Siren(nn.Module):
         use_bias (bool):
         final_activation (torch.nn.Module): Activation function.
     """
+
     def __init__(self, dim_in, dim_hidden, dim_out, num_layers, w0=30.,
-                 w0_initial=30., use_bias=True, final_activation=None, num_encoding_functions = None):
+                 w0_initial=30., use_bias=True, final_activation=None, num_encoding_functions=None):
         super().__init__()
         if num_encoding_functions is not None:
             for n in num_encoding_functions:
@@ -87,7 +90,7 @@ class Siren(nn.Module):
 
         final_activation = nn.Identity() if final_activation is None else final_activation
         self.last_layer = SirenLayer(dim_in=dim_hidden, dim_out=dim_out, w0=w0,
-                                use_bias=use_bias, activation=final_activation)
+                                     use_bias=use_bias, activation=final_activation)
 
     def forward(self, x):
         x = self.net(x)
