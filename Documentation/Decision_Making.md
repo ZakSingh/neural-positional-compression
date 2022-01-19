@@ -18,7 +18,12 @@ We will now document our decision-making process regarding topic selection, rese
 - Following the inspection of all relevant prior work, we began  constructing the model. Initial development began with a very small and noisy 68x68 video. We moved onto the 128x128 videos shown in the report after reaching a satisfying base architecture.
 # Model Construction
 - We began with the simplest model structure that had proven sucessful, the ReLU+Sinusoidal Encoding of [NeRF](https://arxiv.org/abs/2003.08934). This was severely limited as it could not learn high-frequency features for even 5 frames of the 68x68 video without large amount of vertical stripes and artifacting.
-- The first attempt at fixing this was to employ progressie chunking where we kept expanding the size of the chunk during training. This greatly improved quality in terms of PSNR, however, the unbalanced number of times we showed earlier vs later frames resulted in temporal inconsistencies. I.e a person could move their leg forward and then back in the next frame.
+- The first attempt at fixing this was to employ progressive chunking where we kept expanding the size of the chunk during training. This greatly improved quality in terms of PSNR, however, the unbalanced number of times we showed earlier vs later frames resulted in temporal inconsistencies. I.e a person could move their leg forward and then back in the next frame.
+- After this initial failure we changed out the model for a SIREN with the exact parameters specified in the above paper. Because [Implicit Neural Representations for Image Compression](Research_Docs/Implicit%20Neural%20Representations%20for%20Image%20Compression.md) had already found that positional encodings and SIRENs are, to some extent, additive we immediately combined the SIREN model with a uniform sinusoidal encoding.
+- This resulted in a near-perfect fit to the 68x68 video. After this point we moved onto the 128x128.
+- Given that we could not hope to fit the 500 frames in one MLP, keeping the limitations on hidden layer count that [Implicit Neural Representations for Image Compression](Research_Docs/Implicit%20Neural%20Representations%20for%20Image%20Compression.md) had found in mind, we employed static chunking to ensure that the entire video could be encoded.
+- At this point we began to have the specific goal of ilustrating our project on video compression, which is why we included the l1 regularisation into the loss function. To ensure that the weights remain small and behave well under future entropy coding.
+- Observing that we get better and better results as we increase the positional encoding dimension, a question arose on which of the dimensions was less or more important for final image quality.
 
 
 
