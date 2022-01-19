@@ -5,6 +5,7 @@
 - [Deciding on Figures for Report](#deciding-on-figures-for-report)
 
 #Decision-Making Process Documentation
+
 This document is being written with the benefit of hindsight, however, some of its ideas can be traced to the "Relevant Ideas" section of the research documents on [SIREN](Research_Docs/SIREN:%20Implicit%20Neural%20Representations%20with%20Periodic%20Activation%20Functions.md), [COIN](Research_Docs/COIN:%20COmpression%20with%20Implicit%20Neural%20representations.md), and [Implicit Neural Representations for Image Compression](Research_Docs/Implicit%20Neural%20Representations%20for%20Image%20Compression.md). 
 
 
