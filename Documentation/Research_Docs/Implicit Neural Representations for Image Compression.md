@@ -53,7 +53,7 @@ The paper is correct to assume that the base SIREN-model based technique is capa
   - Afterwards they do Quantization Aware Training using the Straight Through Estimator for gradient computation.
 - **Important:**  Entropy Coding: 
   - They do not give the exact algorithm they use, they merely mention it is a "binarized arithmetic coding algorithm to losslessly compress the quantized weights"
-  - Based on google search it is probably similar to [DeepCABAC](https://github.com/fraunhoferhhi/DeepCABAC) or 
+  - Based on google search it is probably similar to [DeepCABAC](https://github.com/fraunhoferhhi/DeepCABAC) 
 - The authors find that improving training time is a major component in making implicit neural representations viable, improve training and inference time by using **TinyCUDA**, potentially in conjunction with their methods.
 - Updates require less storage than a full weight tensor, if we break up a video into chunks we can keep the same architecture and just send the diff---influenced by sec.3.3.2
 - **Important:** Parameter Values For different datasets and resolutions:
@@ -65,8 +65,8 @@ The paper is correct to assume that the base SIREN-model based technique is capa
     - High_res = 16
     - Low_res = 12
   - Num hidden units per layer:
-    - High_res = {24,32,48,64}
-    - Low_res = {32,48,64,128}
+    - High_res = {32,48,64,128}
+    - Low_res = {24,32,48,64}
   - Optimal bidwith for quantization:
     - 7 when using meta learning
     - 8 generally
@@ -122,3 +122,10 @@ competitive with common compression algorithms designed
 specifically for images and closes the gap to state-of-theart learned approaches based on Rate-Distortion Autoencoders. Moreover, we provide an extensive ablation study
 on the importance of individual components of our method
 which we hope facilitates future research on this novel approach to image compression."
+
+"A clear limitation that necessarily needs to be addressed
+by future work is the scaling of INRs to higher bitrates.
+While we observed that scaling the hidden dimension improves scaling properties in terms of rate-distortion performance (see Fig. 8), compared to existing methods, INRbased methods (ours and COIN [17]) consistently show less
+competitive performance at higher bitrates. Thus, it is crucial to develop new architectures for INRs beyond the MLP
+8
+that mitigate the current deficits at high bitrates."
