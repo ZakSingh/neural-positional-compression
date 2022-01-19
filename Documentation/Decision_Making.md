@@ -62,4 +62,4 @@ We will now document our decision-making process regarding topic selection, rese
 	- Gaussian?
 	- Dotted line bars for MPEG and H264?
 
-Log every 500 iterations,  train for 20k
+Log every 500 iterations,  train for 25k
