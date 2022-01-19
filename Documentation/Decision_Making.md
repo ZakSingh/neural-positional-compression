@@ -1,6 +1,7 @@
 - [Topic Selection](#topic-selection)
 - [Research Methodology](#research-methodology)
 - [Model Construction](#model-construction)
+- [Experimental Design](#experimental-design)
 - [Deciding on Figures for Report](#deciding-on-figures-for-report)
 
 #Decision-Making Process Documentation
@@ -23,7 +24,15 @@ We will now document our decision-making process regarding topic selection, rese
 - This resulted in a near-perfect fit to the 68x68 video. After this point we moved onto the 128x128.
 - Given that we could not hope to fit the 500 frames in one MLP, keeping the limitations on hidden layer count that [Implicit Neural Representations for Image Compression](Research_Docs/Implicit%20Neural%20Representations%20for%20Image%20Compression.md) had found in mind, we employed static chunking to ensure that the entire video could be encoded.
 - At this point we began to have the specific goal of ilustrating our project on video compression, which is why we included the l1 regularisation into the loss function. To ensure that the weights remain small and behave well under future entropy coding.
-- Observing that we get better and better results as we increase the positional encoding dimension, a question arose on which of the dimensions was less or more important for final image quality.
+- Observing that we get better and better results as we increase the positional encoding dimension, a question arose on which of the dimensions was less or more important for final image quality. As such we decided to decouple the encoding dimension sizes
+- To make sure our comparisons between uniform vs non-uniform encoding dimensions were as fair as possible we imposed a strict ordering on the encoding components. The goal was to have it so if we do decide to use the same value across dimensions it should be no different then we were encoding all of them simultaneously.
+- Surprisingly, decreasing the time dimension encoding size and increasing the others led to better results than a uniform distribution. We tested the limits of this and found that the proportion does matter, dropping the time dimension size below 1/3 of the spatial size seemed to hurt performance
+- After we could fit 15 frames with decent PSNR we looked into up-to-date NN compression systems. We decided to use [DeepCABAC](https://arxiv.org/abs/1905.08318) since it offered a tailored quantization mechanisms alongside the arithmetic entropy coding we had anticipated when we introduced l1 regularisation
+# Experimental Design
+- We decided on a representative set of NN model and positional encoding combinations to compare against INVR. ReLU+Sin, INVR-None and INVR-Even were obvious as they showcased the specific strengths of our system, however, we were also quite curious abouut trying out the Gaussian encoding which is how INVR-Gaussian entered our model set.
+- We researched classical encoding standards to compare against, fianlly landing on H.264 (Because of its usage of the original CABAC) and MPEG
+- The graphs were chosen to showcase the image quality benefits of our system as well as its convergence properties. We were specifically looking to see what the probability density function looked like since during training the mean and median were almost always identical which puzzeled us.
+
 
 
 
