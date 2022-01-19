@@ -3,21 +3,17 @@ from torch import nn
 from math import sqrt
 
 
-class Sine(nn.Module):
-    """Sine activation with scaling.
-    Args:
-        w0 (float): Omega_0 parameter from SIREN paper.
-    """
-
-    def __init__(self, w0=1.):
+class GaussAct(nn.Module):
+    def __init__(self, std_dev=0.003):
         super().__init__()
-        self.w0 = w0
+        self.std_dev = torch.Tensor([std_dev])
 
     def forward(self, x):
-        return torch.sin(self.w0 * x)
+        return torch.exp(-torch.pow(x, 2) / (2*torch.pow(self.std_dev,2)))
 
 
-class SirenLayer(nn.Module):
+
+class GaussLayer(nn.Module):
     """Implements a single SIREN layer.
     Args:
         dim_in (int): Dimension of input.
@@ -30,7 +26,7 @@ class SirenLayer(nn.Module):
             Sine activation.
     """
 
-    def __init__(self, dim_in, dim_out, w0=30., c=6., is_first=False,
+    def __init__(self, dim_in, dim_out, std_dev=0.003, is_first=False,
                  use_bias=True, activation=None):
         super().__init__()
         self.dim_in = dim_in
@@ -38,13 +34,11 @@ class SirenLayer(nn.Module):
 
         self.linear = nn.Linear(dim_in, dim_out, bias=use_bias)
 
-        # Initialize layers following SIREN paper
-        w_std = (1 / dim_in) if self.is_first else (sqrt(c / dim_in) / w0)
-        nn.init.uniform_(self.linear.weight, -w_std, w_std)
+        nn.init.uniform_(self.linear.weight, 0, 1)
         if use_bias:
-            nn.init.uniform_(self.linear.bias, -w_std, w_std)
+            nn.init.uniform_(self.linear.bias, 0, 1)
 
-        self.activation = Sine(w0) if activation is None else activation
+        self.activation = GaussAct(std_dev) if activation is None else activation
 
     def forward(self, x):
         out = self.linear(x)
@@ -52,7 +46,7 @@ class SirenLayer(nn.Module):
         return out
 
 
-class Siren(nn.Module):
+class Gauss(nn.Module):
     """SIREN model.
     Args:
         dim_in (int): Dimension of input.
@@ -65,23 +59,21 @@ class Siren(nn.Module):
         final_activation (torch.nn.Module): Activation function.
     """
 
-    def __init__(self, dim_in, dim_hidden, dim_out, num_layers, w0=30.,
-                 w0_initial=30., use_bias=True, final_activation=None, num_encoding_functions=None):
+    def __init__(self, dim_in, dim_hidden, dim_out, num_layers, std_dev = 0.003, use_bias=True, final_activation=None, num_encoding_functions=None):
         super().__init__()
         if num_encoding_functions is not None:
             for n in num_encoding_functions:
-                dim_in += 2*n
-                # dim_in += n
+                dim_in += n
+        print(f"Dim_in: {dim_in}")
         layers = []
         for ind in range(num_layers):
             is_first = ind == 0
-            layer_w0 = w0_initial if is_first else w0
             layer_dim_in = dim_in if is_first else dim_hidden
 
-            layers.append(SirenLayer(
+            layers.append(GaussLayer(
                 dim_in=layer_dim_in,
                 dim_out=dim_hidden,
-                w0=layer_w0,
+                std_dev=std_dev,
                 use_bias=use_bias,
                 is_first=is_first
             ))
@@ -89,7 +81,7 @@ class Siren(nn.Module):
         self.net = nn.Sequential(*layers)
 
         final_activation = nn.Identity() if final_activation is None else final_activation
-        self.last_layer = SirenLayer(dim_in=dim_hidden, dim_out=dim_out, w0=w0,
+        self.last_layer = GaussLayer(dim_in=dim_hidden, dim_out=dim_out, std_dev=std_dev,
                                      use_bias=use_bias, activation=final_activation)
 
     def forward(self, x):

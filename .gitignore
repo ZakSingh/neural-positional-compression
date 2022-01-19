@@ -1,3 +1,5 @@
 datasets
 src/__pycache__
 src/models/__pycache__
+weights_*.bin
+*.mp4
