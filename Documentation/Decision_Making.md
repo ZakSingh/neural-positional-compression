@@ -1,5 +1,6 @@
 - [Topic Selection](#topic-selection)
 - [Research Methodology](#research-methodology)
+- [Model Construction](#model-construction)
 - [Deciding on Figures for Report](#deciding-on-figures-for-report)
 
 #Decision-Making Process Documentation
@@ -14,7 +15,10 @@ We will now document our decision-making process regarding topic selection, rese
 # Research Methodology
 - We began with a literature sweep during which we wrote down the most relevant papers we found, i.e those in the [Research_Docs](Research_Docs/), alongside notes on their relevant content as well as ideas which could be adapted sucessfuly to the video domain. During this process we followed the guidlines outlined in ["How to Read a Paper"](https://dl.acm.org/doi/pdf/10.1145/1273445.1273458) in order to optimise the reading process. 
 - After we identified the above core set of papers, we searched for any related work that built upon either positional encodings or SIRENs. The results of this are evident in the background section of our report. 
-- Following the inspection of all relevant prior work, we began construc
+- Following the inspection of all relevant prior work, we began  constructing the model. Initial development began with a very small and noisy 68x68 video. We moved onto the 128x128 videos shown in the report after reaching a satisfying base architecture.
+# Model Construction
+- We began with the simplest model structure that had proven sucessful, the ReLU+Sinusoidal Encoding of [NeRF](https://arxiv.org/abs/2003.08934). This was severely limited as it could not learn high-frequency features for even 5 frames of the 68x68 video without large amount of vertical stripes and artifacting.
+- The first attempt at fixing this was to employ progressie chunking where we kept expanding the size of the chunk during training. This greatly improved quality in terms of PSNR, however, the unbalanced number of times we showed earlier vs later frames resulted in temporal inconsistencies. I.e a person could move their leg forward and then back in the next frame.
 
 
 
